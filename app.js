@@ -2,7 +2,8 @@ import express from 'express';
 import ejs from 'ejs';
 import * as fs from 'fs';
 import { TemplateHandler, MimeType } from 'easy-template-x';
-import { convertWordFiles } from 'convert-multiple-files';
+//import { convertWordFiles } from 'convert-multiple-files';
+import toPdf from 'office-to-pdf';
 import moment from 'moment-timezone';
 import mail from 'nodemailer';
 
@@ -13,7 +14,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8083;
 
 var app = express();
 
@@ -38,38 +39,40 @@ function mailto (From, Pass, To, Subject, Text, Callback) {
 }
 
 async function writePDF(name) {
-  // Return promise => convertWordFiles(path of the file to be converted, convertTo, outputDir)
-  const pathOutput = await convertWordFiles(path.resolve('./output.docx'), 'pdf', ".");
-  console.log(pathOutput);
+  console.log("- write output.pdf");
+  var wordBuffer = fs.readFileSync("./output.docx")
 
-  let title = `정회원가입신청서 [${name}]`;
-  mailto('popup@naver.com', 'aq175312#$', 'liquorsafety@gmail.com', title, '정회원가입신청서입니다.', function (err, info) {
-    if (err) console.log(err);
-    else {
-      console.log("Mail success");
+  toPdf(wordBuffer).then(
+    (pdfBuffer) => {
+      fs.writeFileSync("./output.pdf", pdfBuffer)
+      if (fs.existsSync("output.pdf")) {
+        console.log("- output.pdf file exist");
+
+        console.log("- send mail");
+        let title = `정회원가입신청서 [${name} 님]`;
+        mailto('popup@naver.com', 'aq175312#$', 'haeyun@gmail.com', title, '정회원가입신청서입니다.', function (err, info) {
+          if (err) console.log(err);
+          else {
+            console.log("Mail success");
+          }
+        });
+      }
+    }, (err) => {
+      console.log(err)
     }
-  });
+  )
+  /*
+  const pathOutput = await convertWordFiles(path.resolve(__dirname,'output.docx'), 'pdf', path.resolve(__dirname));
+  console.log(pathOutput);
+  */
 }
 
-/*
-import pdf from "./pdf.js";
-pdf();
-*/
-
-
-/////////////////////////////////////////////////////////////////////////
-//
-// middleware
-//
-app.use(function (req, res, next) {
-  req.timestamp  = moment().unix();
-  req.receivedAt = moment().tz('Asia/Seoul').format('YYYY-MM-DD HH:mm:ss');
-  console.log(req.receivedAt + ': ', req.method, req.protocol +'://' + req.hostname + req.url);
-  return next();
-});
-
-async function writeWord(myjson) {
+async function writeWORD(myjson) {
   const templateFile = fs.readFileSync('template.docx');
+
+  if (fs.existsSync("output.docx"))   { fs.unlinkSync("output.docx");   }
+  if (fs.existsSync("output.pdf"))    { fs.unlinkSync("output.pdf");    }
+  if (fs.existsSync("signature.png")) { fs.unlinkSync("signature.png"); }
 
   let type1 = (myjson.type == 'type1')? "■":"□";
   let type2 = (myjson.type == 'type2')? "■":"□";
@@ -88,6 +91,14 @@ async function writeWord(myjson) {
   let user2 = (myjson.user == 'user2')? "■":"□";
   let user3 = (myjson.user == 'user3')? "■":"□";
   let date = moment().format("YYYY. MM. DD.");
+  let signature = myjson.signature;
+  let buffer = Buffer.from(signature, 'base64');
+
+  fs.writeFileSync('signature.png', buffer, 'base64');
+  console.log("- write signature.png");
+  if (fs.existsSync("signature.png")) {
+    console.log("- signature.png file exist");
+  }
 
   const data = {
       posts: [
@@ -123,26 +134,47 @@ async function writeWord(myjson) {
   const doc = await handler.process(templateFile, data);
 
   fs.writeFileSync('output.docx', doc);
-  writePDF (name);
+
+  console.log("- write output.docx");
+  if (fs.existsSync("output.docx")) {
+    console.log("- output.docx file exist");
+  }
+
+
+  writePDF(name);
 }
+
+/////////////////////////////////////////////////////////////////////////
+//
+// middleware
+//
+app.use(function (req, res, next) {
+  req.timestamp  = moment().unix();
+  req.receivedAt = moment().tz('Asia/Seoul').format('YYYY-MM-DD HH:mm:ss');
+  console.log(req.receivedAt + ': ', req.method, req.protocol +'://' + req.hostname + req.url);
+  return next();
+});
 
 app.get('/', function(req, res) {
   res.render('signpad');
 });
 
 app.post('/json/register', function (req, res) {
-  var signature = req.body.signature;
-  writeWord (req.body);
-  var buffer = Buffer.from(signature, 'base64');
 
-
+  
+  writeWORD (req.body);
+  /*
   fs.writeFileSync('signature.png', buffer, 'base64', err => {
+    console.log("inner");
     if (err) res.send('fail');
     else {
+      writeWord (req.body);
       res.send(req.body);
     }
   });
-  //res.send(req.body);
+  */
+  console.log("outer");
+  res.send(req.body);
 });
 
 app.get('/image', (req, res) => {
