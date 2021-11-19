@@ -67,6 +67,7 @@ async function writePDF(name) {
   */
 }
 
+
 async function writeWORD(myjson) {
   const templateFile = fs.readFileSync('template.docx');
 
