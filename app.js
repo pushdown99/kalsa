@@ -161,7 +161,7 @@ app.get('/', function(req, res) {
 });
 
 app.post('/json/register', function (req, res) { 
-  let userid = moment().format("YYYYMMDD-hhmmss");
+  let userid = moment().format("YYYYMMDD-HHmmss");
   writeWORD (userid, req.body);
   /*
   fs.writeFileSync('signature.png', buffer, 'base64', err => {
