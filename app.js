@@ -27,33 +27,33 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 app.use(express.static(__dirname + '/public'));
 
-function mailto (From, Pass, To, Subject, Text, Callback) {
+function mailto (userid, From, Pass, To, Subject, Text, Callback) {
   let Send = mail.createTransport({ service: 'naver', host: 'smtp.naver.com', port: 587, auth: { user: From, pass: Pass, } });
   let Opts = {
     from: From, to: To, subject: Subject, text: Text, attachments: [
-    { filename: 'output.pdf', content: fs.createReadStream('output.pdf') } ] };
+    { filename: `output-${userid}.pdf`, content: fs.createReadStream(`output-${userid}.pdf`) } ] };
 
   Send.sendMail(Opts, function(error, info){
     Callback (error, info);
   });
 }
 
-async function writePDF(name) {
-  console.log("- write output.pdf");
-  var wordBuffer = fs.readFileSync("./output.docx")
+async function writePDF(userid, name) {
+  console.log(`- write output-${userid}.pdf`);
+  var wordBuffer = fs.readFileSync(`./output-${userid}.docx`)
 
   toPdf(wordBuffer).then(
     (pdfBuffer) => {
-      fs.writeFileSync("./output.pdf", pdfBuffer)
-      if (fs.existsSync("output.pdf")) {
-        console.log("- output.pdf file exist");
+      fs.writeFileSync(`./output-${userid}.pdf`, pdfBuffer)
+      if (fs.existsSync(`output-${userid}.pdf`)) {
+        console.log(`- output-${userid}.pdf file exist`);
 
-        console.log("- send mail");
+        console.log("- sending mail");
         let title = `정회원가입신청서 [${name} 님]`;
-        mailto('popup@naver.com', 'aq175312#$', 'haeyun@gmail.com', title, '정회원가입신청서입니다.', function (err, info) {
+        mailto(userid, 'popup@naver.com', 'aq175312#$', 'haeyun@gmail.com', title, '정회원가입신청서입니다.', function (err, info) {
           if (err) console.log(err);
           else {
-            console.log("Mail success");
+            console.log("- mailto success");
           }
         });
       }
@@ -134,15 +134,15 @@ async function writeWORD(userid, myjson) {
   const handler = new TemplateHandler();
   const doc = await handler.process(templateFile, data);
 
-  fs.writeFileSync('output.docx', doc);
+  fs.writeFileSync(`output-${userid}.docx`, doc);
 
-  console.log("- write output.docx");
-  if (fs.existsSync("output.docx")) {
-    console.log("- output.docx file exist");
+  console.log(`- write output-${userid}.docx`);
+  if (fs.existsSync(`output-${userid}.docx`)) {
+    console.log(`- output-${userid}.docx file exist`);
   }
 
 
-  writePDF(name);
+  writePDF(userid, name);
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -173,7 +173,6 @@ app.post('/json/register', function (req, res) {
     }
   });
   */
-  console.log("outer");
   res.send(req.body);
 });
 
