@@ -4,6 +4,7 @@ import * as fs from 'fs';
 import { TemplateHandler, MimeType } from 'easy-template-x';
 import { convertWordFiles } from 'convert-multiple-files';
 import moment from 'moment-timezone';
+import mail from 'nodemailer';
 
 //const __dirname = new URL('.', import.meta.url).pathname;
 import path from 'path';
@@ -25,10 +26,29 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 app.use(express.static(__dirname + '/public'));
 
-async function test() {
+function mailto (From, Pass, To, Subject, Text, Callback) {
+  let Send = mail.createTransport({ service: 'naver', host: 'smtp.naver.com', port: 587, auth: { user: From, pass: Pass, } });
+  let Opts = {
+    from: From, to: To, subject: Subject, text: Text, attachments: [
+    { filename: 'output.pdf', content: fs.createReadStream('output.pdf') } ] };
+
+  Send.sendMail(Opts, function(error, info){
+    Callback (error, info);
+  });
+}
+
+async function writePDF(name) {
   // Return promise => convertWordFiles(path of the file to be converted, convertTo, outputDir)
   const pathOutput = await convertWordFiles(path.resolve('./output.docx'), 'pdf', ".");
   console.log(pathOutput);
+
+  let title = `정회원가입신청서 [${name}]`;
+  mailto('popup@naver.com', 'aq175312#$', 'liquorsafety@gmail.com', title, '정회원가입신청서입니다.', function (err, info) {
+    if (err) console.log(err);
+    else {
+      console.log("Mail success");
+    }
+  });
 }
 
 /*
@@ -103,7 +123,7 @@ async function writeWord(myjson) {
   const doc = await handler.process(templateFile, data);
 
   fs.writeFileSync('output.docx', doc);
-  test();
+  writePDF (name);
 }
 
 app.get('/', function(req, res) {
