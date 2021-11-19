@@ -68,12 +68,12 @@ async function writePDF(name) {
 }
 
 
-async function writeWORD(myjson) {
+async function writeWORD(userid, myjson) {
   const templateFile = fs.readFileSync('template.docx');
 
-  if (fs.existsSync("output.docx"))   { fs.unlinkSync("output.docx");   }
-  if (fs.existsSync("output.pdf"))    { fs.unlinkSync("output.pdf");    }
-  if (fs.existsSync("signature.png")) { fs.unlinkSync("signature.png"); }
+  //if (fs.existsSync("output.docx"))   { fs.unlinkSync("output.docx");   }
+  //if (fs.existsSync("output.pdf"))    { fs.unlinkSync("output.pdf");    }
+  //if (fs.existsSync("signature.png")) { fs.unlinkSync("signature.png"); }
 
   let type1 = (myjson.type == 'type1')? "■":"□";
   let type2 = (myjson.type == 'type2')? "■":"□";
@@ -95,10 +95,10 @@ async function writeWORD(myjson) {
   let signature = myjson.signature;
   let buffer = Buffer.from(signature, 'base64');
 
-  fs.writeFileSync('signature.png', buffer, 'base64');
-  console.log("- write signature.png");
-  if (fs.existsSync("signature.png")) {
-    console.log("- signature.png file exist");
+  fs.writeFileSync(`signature-${userid}.png`, buffer, 'base64');
+  console.log(`- write signature-${userid}.png`);
+  if (fs.existsSync(`signature-${userid}.png`)) {
+    console.log(`- signature-${userid}.png file exist`);
   }
 
   const data = {
@@ -123,7 +123,7 @@ async function writeWORD(myjson) {
         date: `${date}`,
         "signature": {
           _type: "image",
-          source: fs.readFileSync("signature.png"),
+          source: fs.readFileSync(`signature-${userid}.png`),
           format: MimeType.Png,
           width: 100,
           height: 50
@@ -160,10 +160,9 @@ app.get('/', function(req, res) {
   res.render('signpad');
 });
 
-app.post('/json/register', function (req, res) {
-
-  
-  writeWORD (req.body);
+app.post('/json/register', function (req, res) { 
+  let userid = moment().format("YYYYMMDD-hhmmss");
+  writeWORD (userid, req.body);
   /*
   fs.writeFileSync('signature.png', buffer, 'base64', err => {
     console.log("inner");
@@ -185,7 +184,6 @@ app.get('/image', (req, res) => {
 });
 
 app.get('/pdf', (req, res) => {
-
   let file = 'output.pdf';
   res.download (file);
 });
