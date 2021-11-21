@@ -39,18 +39,23 @@ function mailto (userid, From, Pass, To, Subject, Text, Callback) {
   });
 }
 
-function writePDF(userid, name) {
+async function writePDF(userid, name) {
   console.log(`- write output-${userid}.pdf`);
   var wordBuffer = fs.readFileSync(`./output-${userid}.docx`);
 
+  var pdfBuffer = await toPdf(wordBuffer)
+
+  fs.writeFileSync(`./output-${userid}.pdf`, pdfBuffer);
+  if (fs.existsSync(`output-${userid}.pdf`)) {
+    console.log(`- output-${userid}.pdf file exist`);
+  }
+  return userid;
+  /*
   toPdf(wordBuffer).then(
     (pdfBuffer) => {
       fs.writeFileSync(`./output-${userid}.pdf`, pdfBuffer);
       
-      if (fs.existsSync(`output-${userid}.pdf`)) {
-        console.log(`- output-${userid}.pdf file exist`);
-      }
-      /*
+      
         console.log("- sending mail");
         let title = `정회원가입신청서 [${name} 님]`;
         mailto(userid, 'popup@naver.com', 'aq175312#$', 'haeyun@gmail.com', title, '정회원가입신청서입니다.', function (err, info) {
@@ -61,11 +66,12 @@ function writePDF(userid, name) {
           }
         });
       }
-      */
+      
     }, (err) => {
       console.log(err)
     }
   )
+  */
   /*
   const pathOutput = await convertWordFiles(path.resolve(__dirname,'output.docx'), 'pdf', path.resolve(__dirname));
   console.log(pathOutput);
