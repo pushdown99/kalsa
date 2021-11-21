@@ -201,7 +201,7 @@ app.post('/json/register', function (req, res) {
   });
 });
 
-app.post('/json/register', function (req, res) { 
+app.post('/json/register2', function (req, res) { 
   let userid = req.body.userid = moment().format("YYYYMMDD-HHmmss");
   let name = req.body.name;
 
