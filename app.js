@@ -158,8 +158,12 @@ app.use(function (req, res, next) {
   return next();
 });
 
-app.get('/', function(req, res) {
-  res.render('signpad');
+app.get('/regular', function(req, res) {
+  res.render('regular');
+});
+
+app.get('/associate', function(req, res) {
+  res.render('associate');
 });
 
 app.post('/json/register', function (req, res) { 
