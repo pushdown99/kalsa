@@ -83,15 +83,17 @@ $('#save').on('click', function(event) {
     signature  : sign
   }
   
-  if (params.cname == "")    dynamicAlert ("회사명을 입력해주세요");
-  else if (params.name == "")     dynamicAlert ("대표자명을 입력해주세요");
-  else if (params.tel == "")      dynamicAlert ("연락처를 입력해주세요");
-  else if (params.r_name == "")   dynamicAlert ("담당자명을 입력해주세요");
-  else if (params.r_mobile == "") dynamicAlert ("담당자 연락처를 입력해주세요");
-  else if (params.r_email == "")  dynamicAlert ("담당자 이메일을 입력해주세요");
-  else if (params.id == "")       dynamicAlert ("ID를 입력해주세요");
-  else if (params.email == "")    dynamicAlert ("회원가입용 이메일을 입력해주세요");
-  else if (params.got_sign != "1") dynamicAlert ("서명을 해주세요");
+  if (params.cname == "")                          dynamicAlert ("회사명을 입력해주세요");
+  else if (params.name == "")                      dynamicAlert ("대표자명을 입력해주세요");
+  else if (params.tel == "")                       dynamicAlert ("연락처를 입력해주세요");
+  else if (params.r_name == "")                    dynamicAlert ("담당자명을 입력해주세요");
+  else if (params.r_mobile == "")                  dynamicAlert ("담당자 연락처를 입력해주세요");
+  else if (params.r_email == "")                   dynamicAlert ("담당자 이메일을 입력해주세요");
+  else if (validateEmail(params.r_email) == false) dynamicAlert ("정상적인 담당자 이메일을 입력해주세요");
+  else if (params.id == "")                        dynamicAlert ("ID를 입력해주세요");
+  else if (params.email == "")                     dynamicAlert ("회원가입용 이메일을 입력해주세요");
+  else if (validateEmail(params.email) == false)   dynamicAlert ("정상적인 회원가입용 이메일을 입력해주세요");
+  else if (params.got_sign != "1")                 dynamicAlert ("서명을 해주세요");
   else {
     console.log(params);
     console.log(JSON.stringify(params));
@@ -126,8 +128,10 @@ $('#save2').on('click', function(event) {
   if (params.name == "")                              dynamicAlert ("이름을 입력해주세요");
   else if (params.tel == "" && params.mobile == "")   dynamicAlert ("전화번호 또는 휴대전화번호를 입력해주세요");
   else if (params.r_email == "")                      dynamicAlert ("이메일을 입력해주세요");
+  else if (validateEmail(params.r_email) == false)    dynamicAlert ("정상적인 이메일을 입력해주세요");
   else if (params.id == "")                           dynamicAlert ("ID를 입력해주세요");
   else if (params.email == "")                        dynamicAlert ("회원가입용 이메일을 입력해주세요");
+  else if (validateEmail(params.email) == false)      dynamicAlert ("정상적인 회원가입용 이메일을 입력해주세요");
   else if (params.got_sign != "1")                    dynamicAlert ("서명을 해주세요");
   else {
     console.log(params);

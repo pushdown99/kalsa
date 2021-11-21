@@ -77,12 +77,8 @@ function writePDF(userid, name) {
 }
 
 
-async function writeWORD(userid, myjson) {
-  const templateFile = fs.readFileSync('template.docx');
-
-  //if (fs.existsSync("output.docx"))   { fs.unlinkSync("output.docx");   }
-  //if (fs.existsSync("output.pdf"))    { fs.unlinkSync("output.pdf");    }
-  //if (fs.existsSync("signature.png")) { fs.unlinkSync("signature.png"); }
+async function writeWORD(type, userid, myjson) {
+  const templateFile = (type == 0)? fs.readFileSync('template.docx'): fs.readFileSync('template1.docx');
 
   let type1 = (myjson.type == 'type1')? "■":"□";
   let type2 = (myjson.type == 'type2')? "■":"□";
@@ -182,7 +178,7 @@ app.post('/json/register', function (req, res) {
   let userid = req.body.userid = moment().format("YYYYMMDD-HHmmss");
   let name = req.body.name;
 
-  writeWORD (userid, req.body).then((data) => {
+  writeWORD (0, userid, req.body).then((data) => {
     console.log ("after writeWORD");
 
     console.log(`- write output-${userid}.pdf`);
@@ -202,31 +198,34 @@ app.post('/json/register', function (req, res) {
         }
       });
     });  
-    /*
-    writePDF(userid, name);
-    console.log ("after writePDF");  
-    res.send(req.body);
-    */
-    /*
-    writePDF(userid, name).then((data) => {
-    console.log ("after writePDF");
-    res.send(req.body);
-    });
-    */
-  }
-  );
-  /*
-  fs.writeFileSync('signature.png', buffer, 'base64', err => {
-    console.log("inner");
-    if (err) res.send('fail');
-    else {
-      writeWord (req.body);
-      res.send(req.body);
-    }
   });
-  */
-  //console.log ("res.send");
-  //res.send(req.body);
+});
+
+app.post('/json/register', function (req, res) { 
+  let userid = req.body.userid = moment().format("YYYYMMDD-HHmmss");
+  let name = req.body.name;
+
+  writeWORD (1, userid, req.body).then((data) => {
+    console.log ("after writeWORD");
+
+    console.log(`- write output-${userid}.pdf`);
+    var wordBuffer = fs.readFileSync(`./docx/output-${userid}.docx`);
+  
+    toPdf(wordBuffer).then((pdfBuffer) => {
+      fs.writeFileSync(`./pdf/output-${userid}.pdf`, pdfBuffer);
+      console.log(`- write output-${userid}.pdf (after)`);
+      
+      console.log("- sending mail");
+      let title = `일반회원가입신청서 [${name} 님]`;
+      mailto(userid, 'popup@naver.com', 'aq175312#$', 'haeyun@gmail.com', title, '일반회원가입신청서입니다.', function (err, info) {
+        if (err) console.log(err);
+        else {
+          console.log("- mailto success");
+          res.send(req.body);
+        }
+      });
+    });  
+  });
 });
 
 app.get('/image', (req, res) => {
