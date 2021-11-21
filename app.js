@@ -151,7 +151,7 @@ app.post('/json/register', function (req, res) {
 
   writeWORD (userid, req.body).then((data) => {
     console.log ("after writeWORD");
-    
+
     console.log(`- write output-${userid}.pdf`);
     var wordBuffer = fs.readFileSync(`./output-${userid}.docx`);
   
@@ -165,7 +165,7 @@ app.post('/json/register', function (req, res) {
         if (err) console.log(err);
         else {
           console.log("- mailto success");
-          return userid;
+          res.send(req.body);
         }
       });
     });  
