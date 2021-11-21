@@ -46,10 +46,11 @@ function writePDF(userid, name) {
   toPdf(wordBuffer).then(
     (pdfBuffer) => {
       fs.writeFileSync(`./output-${userid}.pdf`, pdfBuffer);
-      /*
+      
       if (fs.existsSync(`output-${userid}.pdf`)) {
         console.log(`- output-${userid}.pdf file exist`);
-
+      }
+      /*
         console.log("- sending mail");
         let title = `정회원가입신청서 [${name} 님]`;
         mailto(userid, 'popup@naver.com', 'aq175312#$', 'haeyun@gmail.com', title, '정회원가입신청서입니다.', function (err, info) {
