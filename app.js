@@ -43,7 +43,7 @@ async function writePDF(userid, name) {
   console.log(`- write output-${userid}.pdf`);
   var wordBuffer = fs.readFileSync(`./output-${userid}.docx`);
 
-  var pdfBuffer = toPdf(wordBuffer).then(
+  toPdf(wordBuffer).then(
     (pdfBuffer) => {
       fs.writeFileSync(`./output-${userid}.pdf`, pdfBuffer)
       if (fs.existsSync(`output-${userid}.pdf`)) {
