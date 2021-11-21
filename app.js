@@ -219,11 +219,12 @@ app.get('/pdf/:f', (req, res) => {
   console.log ('file:', p);
   try {
   let data = fs.readFileSync(p);
+  res.contentType("application/pdf");
+  res.send (data);
   } catch (err) {
     console.log(err);
   }
-  res.contentType("application/pdf");
-  res.send (data);
+
 });
 
 
