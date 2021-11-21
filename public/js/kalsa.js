@@ -122,7 +122,7 @@ $('#save2').on('click', function(event) {
     type       : $('input[type=radio][name=type]:checked').val(),
     cname      : $('#cname').val(),
     tel        : $('#tel').val(),
-    mobile     : $('#mobile').val(),
+    r_mobile   : $('#r_mobile').val(),
     name       : $('#name').val(),
     r_email    : $('#r_email').val(),
     address    : $('#address').val(),
@@ -136,7 +136,7 @@ $('#save2').on('click', function(event) {
   console.log (validateEmail(params.email));
 
   if (params.name == "")                              dynamicAlert ("이름을 입력해주세요");
-  else if (params.tel == "" && params.mobile == "")   dynamicAlert ("전화번호 또는 휴대전화번호를 입력해주세요");
+  else if (params.tel == "" && params.r_mobile == "") dynamicAlert ("전화번호 또는 휴대전화번호를 입력해주세요");
   else if (params.r_email == "")                      dynamicAlert ("이메일을 입력해주세요");
   else if (validateEmail(params.r_email) == false)    dynamicAlert ("정상적인 이메일을 입력해주세요");
   else if (params.id == "")                           dynamicAlert ("ID를 입력해주세요");
