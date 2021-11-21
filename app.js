@@ -45,6 +45,7 @@ async function writePDF(userid, name) {
 
   toPdf(wordBuffer).then((pdfBuffer) => {
     fs.writeFileSync(`./output-${userid}.pdf`, pdfBuffer);
+    console.log(`- write output-${userid}.pdf (after)`);
     
     console.log("- sending mail");
     let title = `정회원가입신청서 [${name} 님]`;
@@ -88,9 +89,6 @@ async function writeWORD(userid, myjson) {
 
   fs.writeFileSync(`signature-${userid}.png`, buffer, 'base64');
   console.log(`- write signature-${userid}.png`);
-  if (fs.existsSync(`signature-${userid}.png`)) {
-    console.log(`- signature-${userid}.png file exist`);
-  }
 
   const data = {
       posts: [
@@ -125,17 +123,11 @@ async function writeWORD(userid, myjson) {
   const handler = new TemplateHandler();
   const doc = await handler.process(templateFile, data);
 
-  fs.writeFileSync(`output-${userid}.docx`, doc);
-
   console.log(`- write output-${userid}.docx`);
-  if (fs.existsSync(`output-${userid}.docx`)) {
-    console.log(`- output-${userid}.docx file exist`);
-    return userid;
-    //writePDF(userid, name).then((data) => {
-    //  console.log ("- write pdf completed", data);
-    //  return data;
-    //});
-  }
+  fs.writeFileSync(`output-${userid}.docx`, doc);
+  console.log(`- write output-${userid}.docx (after)`);
+
+  return userid;
 }
 
 /////////////////////////////////////////////////////////////////////////
