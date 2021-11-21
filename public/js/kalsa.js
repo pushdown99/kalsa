@@ -52,6 +52,7 @@ viewReceipt = function (file) {
             'max-height':'100%'
      });
      $(this).find("#pdf").attr("data", file);
+     console.log ('view:', file)
   }).modal('show');
 }
 
