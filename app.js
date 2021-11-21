@@ -1,4 +1,6 @@
 import express from 'express';
+import http    from 'http';
+import https   from 'https';
 import ejs from 'ejs';
 import * as fs from 'fs';
 import { TemplateHandler, MimeType } from 'easy-template-x';
@@ -14,7 +16,12 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const port = process.env.PORT || 8083;
+let port_http  = process.env.PORT_HTTP  || 80;
+let port_https = process.env.PORT_HTTPS || 443; // 55100
+
+let pem_privateKey  = process.env.PEM_PRIVATEKEY || '/etc/letsencrypt/live/tric.kr/privkey.pem';
+let pem_certificate = process.env.PEM_CERT       || '/etc/letsencrypt/live/tric.kr/cert.pem'   ;
+let pem_ca          = process.env.PEM_CHAIN      || '/etc/letsencrypt/live/tric.kr/chain.pem'  ;
 
 var app = express();
 
@@ -228,5 +235,24 @@ app.get('/pdf/:f', (req, res) => {
 });
 
 
-app.listen(port, () => console.log(`Listening on ${ port }`));
+const privateKey  = fs.readFileSync(pem_privateKey, 'utf8');
+const certificate = fs.readFileSync(pem_certificate, 'utf8');
+const ca          = fs.readFileSync(pem_ca, 'utf8');
+const credentials = {
+  key: privateKey,
+  cert: certificate,
+  ca: ca
+};
+const httpServer  = http.createServer(app);
+const httpsServer = https.createServer(credentials, app);
+
+httpServer.listen(port_http, () => {
+  console.log('Listener: ', 'http  listening on port ' + port_http);
+});
+
+httpsServer.listen(port_https, () => {
+  console.log('Listener: ', 'https listening on port ' + port_https);
+});
+
+//app.listen(port, () => console.log(`Listening on ${ port }`));
 
