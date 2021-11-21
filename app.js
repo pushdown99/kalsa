@@ -142,10 +142,10 @@ async function writeWORD(userid, myjson) {
   if (fs.existsSync(`output-${userid}.docx`)) {
     console.log(`- output-${userid}.docx file exist`);
     
-    writePDF(userid, name).then((data) => {
-      console.log ("- write pdf completed", data);
-      return data;
-    });
+    //writePDF(userid, name).then((data) => {
+    //  console.log ("- write pdf completed", data);
+    //  return data;
+    //});
   }
 }
 
@@ -165,11 +165,15 @@ app.get('/', function(req, res) {
 });
 
 app.post('/json/register', function (req, res) { 
-  let userid = moment().format("YYYYMMDD-HHmmss");
-  req.body.userid = userid;
+  let userid = req.body.userid = moment().format("YYYYMMDD-HHmmss");
+  let name = req.body.name;
+
   writeWORD (userid, req.body).then((data) => {
-    console.log ("res.send");
-    res.send(req.body);
+    console.log ("after writeWORD");
+    writePDF(userid, name).then((data) => {
+      console.log ("after writePDF");
+      res.send(req.body);
+    }); 
   }
   );
   /*
