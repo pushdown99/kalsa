@@ -43,9 +43,19 @@ function dynamicAlert (body) {
 // jQuery READY
 //
 
+viewReceipt = function (file) {
+  console.log('call viewReceipt:', file);
+  $("#exampleModal").on("shown.bs.modal", function () {
+     $(this).find('.modal-body').css({
+            width:'auto', //probably not needed
+            height:'auto', //probably not needed
+            'max-height':'100%'
+     });
+     $(this).find("#pdf").attr("data", file);
+  }).modal('show');
+}
+
 $('#save').on('click', function(event) {
-  dynamicAlert("공란을 채워주세요"); 
-  
   var canvas    = document.getElementById("signature-pad");
   var sign = canvas.toDataURL('image/png').replace(/\s/g, '+').replace(/^data:image\/png;base64,/, '');
 
@@ -65,6 +75,9 @@ $('#save').on('click', function(event) {
     email      : $('#email').val(),
     signature  : sign
   }
+  if (params.user == "") dynamicAlert ("대표자명을 입력해주세요");
+  if (params.user == "") dynamicAlert ("대표자명을 입력해주세요");
+
   console.log(params);
   console.log(JSON.stringify(params));
 
