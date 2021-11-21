@@ -39,7 +39,7 @@ function mailto (userid, From, Pass, To, Subject, Text, Callback) {
   });
 }
 
-async function writePDF(userid, name) {
+function writePDF(userid, name) {
   console.log(`- write output-${userid}.pdf`);
   var wordBuffer = fs.readFileSync(`./output-${userid}.docx`);
 
@@ -151,10 +151,16 @@ app.post('/json/register', function (req, res) {
 
   writeWORD (userid, req.body).then((data) => {
     console.log ("after writeWORD");
+    writePDF(userid, name);
+    console.log ("after writePDF");  
+    res.send(req.body);
+    
+    /*
     writePDF(userid, name).then((data) => {
     console.log ("after writePDF");
     res.send(req.body);
     });
+    */
   }
   );
   /*
