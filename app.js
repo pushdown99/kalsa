@@ -175,6 +175,7 @@ app.post('/json/register', function (req, res) {
     }
   });
   */
+  console.log ("res.send");
   res.send(req.body);
 });
 
