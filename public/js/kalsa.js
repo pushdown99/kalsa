@@ -86,7 +86,7 @@ $('#save').on('click', function(event) {
   else if (params.r_email == "")  dynamicAlert ("담당자 이메일을 입력해주세요");
   else if (params.id == "")       dynamicAlert ("ID를 입력해주세요");
   else if (params.email == "")    dynamicAlert ("회원가입용 이메일을 입력해주세요");
-  else if (params.got_sign == "") dynamicAlert ("서명을 해주세요");
+  else if (params.got_sign != "1") dynamicAlert ("서명을 해주세요");
   else {
     console.log(params);
     console.log(JSON.stringify(params));
