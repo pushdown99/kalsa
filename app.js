@@ -158,6 +158,10 @@ app.use(function (req, res, next) {
   return next();
 });
 
+app.get('/', function(req, res) {
+  res.redirect('/regular');
+});
+
 app.get('/regular', function(req, res) {
   res.render('regular');
 });
