@@ -87,7 +87,7 @@ async function writeWORD(userid, myjson) {
   let signature = myjson.signature;
   let buffer = Buffer.from(signature, 'base64');
 
-  fs.writeFileSync(`signature\/signature-${userid}.png`, buffer, 'base64');
+  fs.writeFileSync(`./signature/signature-${userid}.png`, buffer, 'base64');
   console.log(`- write signature-${userid}.png`);
 
   const data = {
