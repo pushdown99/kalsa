@@ -170,10 +170,9 @@ app.post('/json/register', function (req, res) {
 
   writeWORD (userid, req.body).then((data) => {
     console.log ("after writeWORD");
-    writePDF(userid, name).then((data) => {
-      console.log ("after writePDF");
-      res.send(req.body);
-    }); 
+    writePDF(userid, name);
+    console.log ("after writePDF");
+    res.send(req.body);
   }
   );
   /*
