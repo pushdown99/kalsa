@@ -164,7 +164,10 @@ app.get('/', function(req, res) {
 app.post('/json/register', function (req, res) { 
   let userid = moment().format("YYYYMMDD-HHmmss");
   req.body.userid = userid;
-  await writeWORD (userid, req.body);
+  writeWORD (userid, req.body).then(
+    console.log ("res.send");
+    res.send(req.body);
+  );
   /*
   fs.writeFileSync('signature.png', buffer, 'base64', err => {
     console.log("inner");
@@ -175,8 +178,8 @@ app.post('/json/register', function (req, res) {
     }
   });
   */
-  console.log ("res.send");
-  res.send(req.body);
+  //console.log ("res.send");
+  //res.send(req.body);
 });
 
 app.get('/image', (req, res) => {
