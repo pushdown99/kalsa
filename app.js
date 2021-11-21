@@ -55,6 +55,7 @@ async function writePDF(userid, name) {
           if (err) console.log(err);
           else {
             console.log("- mailto success");
+            return userid;
           }
         });
       }
