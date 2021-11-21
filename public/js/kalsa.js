@@ -79,21 +79,22 @@ $('#save').on('click', function(event) {
   }
   
   if (params.cname == "")    dynamicAlert ("회사명을 입력해주세요");
-  if (params.name == "")     dynamicAlert ("대표자명을 입력해주세요");
-  if (params.tel == "")      dynamicAlert ("연락처를 입력해주세요");
-  if (params.r_name == "")   dynamicAlert ("담당자명을 입력해주세요");
-  if (params.r_mobile == "") dynamicAlert ("담당자 연락처를 입력해주세요");
-  if (params.r_email == "")  dynamicAlert ("담당자 이메일을 입력해주세요");
-  if (params.id == "")       dynamicAlert ("ID를 입력해주세요");
-  if (params.email == "")    dynamicAlert ("회원가입용 이메일을 입력해주세요");
-  if (params.got_sign == "") dynamicAlert ("서명을 해주세요");
+  else if (params.name == "")     dynamicAlert ("대표자명을 입력해주세요");
+  else if (params.tel == "")      dynamicAlert ("연락처를 입력해주세요");
+  else if (params.r_name == "")   dynamicAlert ("담당자명을 입력해주세요");
+  else if (params.r_mobile == "") dynamicAlert ("담당자 연락처를 입력해주세요");
+  else if (params.r_email == "")  dynamicAlert ("담당자 이메일을 입력해주세요");
+  else if (params.id == "")       dynamicAlert ("ID를 입력해주세요");
+  else if (params.email == "")    dynamicAlert ("회원가입용 이메일을 입력해주세요");
+  else if (params.got_sign == "") dynamicAlert ("서명을 해주세요");
+  else {
+    console.log(params);
+    console.log(JSON.stringify(params));
 
-  console.log(params);
-  console.log(JSON.stringify(params));
-
-  $.postJSON('/json/register', params).then(res => {
-    viewReceipt (`/pdf/output-${res.userid}.pdf`);
-    console.log(res);
-  });
+    $.postJSON('/json/register', params).then(res => {
+      viewReceipt (`/pdf/output-${res.userid}.pdf`);
+      console.log(res);
+    });
+  }
 });
 
