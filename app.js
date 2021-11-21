@@ -143,7 +143,9 @@ async function writeWORD(userid, myjson) {
   }
 
 
-  writePDF(userid, name);
+  writePDF(userid, name).then((data) => {
+    return
+  });
 }
 
 /////////////////////////////////////////////////////////////////////////
