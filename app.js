@@ -41,9 +41,9 @@ function mailto (userid, From, Pass, To, Subject, Text, Callback) {
 
 async function writePDF(userid, name) {
   console.log(`- write output-${userid}.pdf`);
-  var wordBuffer = fs.readFileSync(`./output-${userid}.docx`)
+  var wordBuffer = fs.readFileSync(`./output-${userid}.docx`);
 
-  toPdf(wordBuffer).then(
+  var pdfBuffer = toPdf(wordBuffer).then(
     (pdfBuffer) => {
       fs.writeFileSync(`./output-${userid}.pdf`, pdfBuffer)
       if (fs.existsSync(`output-${userid}.pdf`)) {
