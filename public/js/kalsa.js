@@ -163,7 +163,6 @@ $('#submit').on('click', function(event) {
     console.log(JSON.stringify(params));
 
     $.postJSON('/json/submit', params).then(res => {
-      viewReceipt (`/pdf/output-${res.userid}.pdf`);
       console.log(res);
     });
   }
@@ -250,7 +249,6 @@ $('#submit2').on('click', function(event) {
     console.log(JSON.stringify(params));
 
     $.postJSON('/json/submit2', params).then(res => {
-      viewReceipt (`/pdf/output-${res.userid}.pdf`);
       console.log(res);
     });
   }
