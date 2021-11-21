@@ -32,7 +32,7 @@ function mailto (userid, From, Pass, To, Subject, Text, Callback) {
   let Send = mail.createTransport({ service: 'naver', host: 'smtp.naver.com', port: 587, auth: { user: From, pass: Pass, } });
   let Opts = {
     from: From, to: To, subject: Subject, text: Text, attachments: [
-    { filename: `output-${userid}.pdf`, content: fs.createReadStream(`output-${userid}.pdf`) } ] };
+    { filename: `./pdf/output-${userid}.pdf`, content: fs.createReadStream(`./pdf/output-${userid}.pdf`) } ] };
 
   Send.sendMail(Opts, function(error, info){
     Callback (error, info);
@@ -87,7 +87,7 @@ async function writeWORD(userid, myjson) {
   let signature = myjson.signature;
   let buffer = Buffer.from(signature, 'base64');
 
-  fs.writeFileSync(`signature-${userid}.png`, buffer, 'base64');
+  fs.writeFileSync(`./signature/signature-${userid}.png`, buffer, 'base64');
   console.log(`- write signature-${userid}.png`);
 
   const data = {
@@ -112,7 +112,7 @@ async function writeWORD(userid, myjson) {
         date: `${date}`,
         "signature": {
           _type: "image",
-          source: fs.readFileSync(`signature-${userid}.png`),
+          source: fs.readFileSync(`./signature/signature-${userid}.png`),
           format: MimeType.Png,
           width: 100,
           height: 50
@@ -124,7 +124,7 @@ async function writeWORD(userid, myjson) {
   const doc = await handler.process(templateFile, data);
 
   console.log(`- write output-${userid}.docx`);
-  fs.writeFileSync(`output-${userid}.docx`, doc);
+  fs.writeFileSync(`./docx/output-${userid}.docx`, doc);
   console.log(`- write output-${userid}.docx (after)`);
 
   return userid;
@@ -153,10 +153,10 @@ app.post('/json/register', function (req, res) {
     console.log ("after writeWORD");
 
     console.log(`- write output-${userid}.pdf`);
-    var wordBuffer = fs.readFileSync(`./output-${userid}.docx`);
+    var wordBuffer = fs.readFileSync(`./docx/output-${userid}.docx`);
   
     toPdf(wordBuffer).then((pdfBuffer) => {
-      fs.writeFileSync(`./output-${userid}.pdf`, pdfBuffer);
+      fs.writeFileSync(`./pdf/output-${userid}.pdf`, pdfBuffer);
       console.log(`- write output-${userid}.pdf (after)`);
       
       console.log("- sending mail");
@@ -202,10 +202,15 @@ app.get('/image', (req, res) => {
   res.send (data);
 });
 
-app.get('/pdf', (req, res) => {
-  let file = 'output.pdf';
-  res.download (file);
+app.get('/pdf/:f', (req, res) => {
+  let f = req.params.f;
+  let d = 'pdf';
+  let p = `${d}/${f}`;
+  let data = require('fs').readFileSync(p);
+  res.contentType("application/pdf");
+  res.send (data);
 });
+
 
 app.listen(port, () => console.log(`Listening on ${ port }`));
 

@@ -82,7 +82,7 @@ $('#save').on('click', function(event) {
   console.log(JSON.stringify(params));
 
   $.postJSON('/json/register', params).then(res => {
-    viewReceipt (`'/output-${res.userid}.pdf'`);
+    viewReceipt (`'/pdf/output-${res.userid}.pdf'`);
     console.log(res);
   });
 });
