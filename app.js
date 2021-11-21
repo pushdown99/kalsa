@@ -216,7 +216,11 @@ app.get('/pdf/:f', (req, res) => {
   let f = req.params.f;
   let d = 'pdf';
   let p = `${d}/${f}`;
+  try {
   let data = fs.readFileSync(p);
+  } catch (err) {
+    console.log(err);
+  }
   res.contentType("application/pdf");
   res.send (data);
 });
