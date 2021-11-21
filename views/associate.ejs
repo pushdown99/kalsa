@@ -17,34 +17,33 @@
             <div class="col-lg-12">
                 <div class="card card-primary card-outline">
                     <div class="card-body">
-                        <h5><b>정회원가입신청서</b></h5>
+                        <h5><b>일반회원가입신청서</b></h5>
                         <hr>
 
                         <div class="form-row">
                         
-                        <div class="form-group col-md-3"><label for="type">회원가입유형*</label></div>
+                        <div class="form-group col-md-3"><label for="type">회원가입유형</label></div>
                         <div class="form-group col-md-9">
                             <div class="form-check">
-                                <label class="radio-inline">&nbsp;<input type="radio" id="type1" name="type" value="type1" checked>&nbsp;&nbsp;개인회원&nbsp;&nbsp;</label>
-                                <label class="radio-inline">&nbsp;<input type="radio" id="type2" name="type" value="type2">&nbsp;&nbsp;단체회원&nbsp;&nbsp;</label>
+                                <label class="radio-inline">&nbsp;<input type="radio" id="type1" name="type" value="type1" checked>&nbsp;&nbsp;일반회원&nbsp;&nbsp;*일반회원은 주류제조 및 유통종사자 이외 가입가능</label>
                             </div>
                         </div>
 
                         <div class="form-group col-md-3">
-                            <label for="cname">회사명*</label>
+                            <label for="cname">소속</label>
                         </div>
                         <div class="form-group col-md-9">
                             <div class="input-group">
-                            <input id="cname" type="text" class="form-control" value="" placeholder="회사명">
+                            <input id="cname" type="text" class="form-control" value="" placeholder="소속">
                             </div>
                         </div>
 
                         <div class="form-group col-md-3">
-                            <label for="name">대표자명*</label>
+                            <label for="name">성명*</label>
                         </div>
                         <div class="form-group col-md-9">
                             <div class="input-group">
-                            <input id="name" type="text" class="form-control" value="" placeholder="대표자명">
+                            <input id="name" type="text" class="form-control" value="" placeholder="성명">
                             </div>
                         </div>
 
@@ -58,56 +57,29 @@
                         </div>
 
                         <div class="form-group col-md-3">
-                            <label for="fax">팩스번호</label>
+                            <label for="mobile">휴대전화*</label>
                         </div>
                         <div class="form-group col-md-9">
                             <div class="input-group">
-                            <input id="fax" type="text" class="form-control" value="" placeholder="팩스번호">
+                            <input id="mobile" type="text" class="form-control" value="" placeholder="휴대전화">
                             </div>
                         </div>
 
                         <div class="form-group col-md-3">
-                            <label for="address">주소</label>
+                            <label for="email">이메일*</label>
+                        </div>
+                        <div class="form-group col-md-9">
+                            <div class="input-group">
+                            <input id="email" type="text" class="form-control" value="" placeholder="이메일">
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="address">주소*</label>
                         </div>
                         <div class="form-group col-md-9">
                             <div class="input-group">
                             <input id="address" type="text" class="form-control" value="" placeholder="주소">
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-3">
-                            <label for="r_name">담당자명*</label>
-                        </div>
-                        <div class="form-group col-md-9">
-                            <div class="input-group">
-                            <input id="r_name" type="text" class="form-control" value="" placeholder="담당자명">
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-3">
-                            <label for="r_position">직위</label>
-                        </div>
-                        <div class="form-group col-md-9">
-                            <div class="input-group">
-                            <input id="r_position" type="text" class="form-control" value="" placeholder="직위">
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-3">
-                            <label for="r_mobile">휴대폰번호*</label>
-                        </div>
-                        <div class="form-group col-md-9">
-                            <div class="input-group">
-                            <input id="r_mobile" type="text" class="form-control" value="" placeholder="휴대폰번호">
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-3">
-                            <label for="r_email">이메일*</label>
-                        </div>
-                        <div class="form-group col-md-9">
-                            <div class="input-group">
-                            <input id="r_email" type="text" class="form-control" value="" placeholder="이메일">
                             </div>
                         </div>
 
@@ -151,13 +123,11 @@
                         <div class="form-group col-md-9">
                             <div class="form-check">
                             <label class="radio-inline">&nbsp;<input type="radio" id="user1" name="user" value="user1" checked>&nbsp;&nbsp;사용자명&nbsp;&nbsp;</label>
-                            <label class="radio-inline">&nbsp;<input type="radio" id="user2" name="user" value="user2">&nbsp;&nbsp;회사명&nbsp;&nbsp;</label>
-                            <label class="radio-inline">&nbsp;<input type="radio" id="user3" name="user" value="user3">&nbsp;&nbsp;담당자명&nbsp;&nbsp;</label>
+                            <label class="radio-inline">&nbsp;<input type="radio" id="user2" name="user" value="user2">&nbsp;&nbsp;회원명&nbsp;&nbsp;</label>
                             </div>
                             <div class="comment">
-                            참조1: 회사명 신청시, 홈페이지 담당자 이름이 회사명으로 가입됩니다.<br>
-                            참조2: 사용자명(회원ID)는 영문과 숫자로만 구성됩니다.<br>
-                            참조3: 비밀번호는 "liquorsafety1234"로 임의설정되며, 로그인 후 변경하시면 됩니다.<br>
+                            참조1: 사용자명(회원ID)는 영문과 숫자로만 구성됩니다.<br>
+                            참조2: 비밀번호는 "liquorsafety1234"로 임의설정되며, 로그인 후 변경하시면 됩니다.<br>
                             </div>
                         </div>
 
