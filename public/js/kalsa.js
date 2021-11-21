@@ -63,7 +63,6 @@ $('#save').on('click', function(event) {
 
   var params = {
     type       : $('input[type=radio][name=type]:checked').val(),
-    user       : $('input[type=radio][name=user]:checked').val(),
     cname      : $('#cname').val(),
     name       : $('#name').val(),
     tel        : $('#tel').val(),
@@ -75,10 +74,19 @@ $('#save').on('click', function(event) {
     r_email    : $('#r_email').val(),
     id         : $('#id').val(),
     email      : $('#email').val(),
+    got_sign   : $('#got_sign').val(),
     signature  : sign
   }
-  if (params.user == "") dynamicAlert ("대표자명을 입력해주세요");
-  if (params.user == "") dynamicAlert ("대표자명을 입력해주세요");
+  
+  if (params.cname == "")    dynamicAlert ("회사명을 입력해주세요");
+  if (params.name == "")     dynamicAlert ("대표자명을 입력해주세요");
+  if (params.tel == "")      dynamicAlert ("연락처를 입력해주세요");
+  if (params.r_name == "")   dynamicAlert ("담당자명을 입력해주세요");
+  if (params.r_mobile == "") dynamicAlert ("담당자 연락처를 입력해주세요");
+  if (params.r_email == "")  dynamicAlert ("담당자 이메일을 입력해주세요");
+  if (params.id == "")       dynamicAlert ("ID를 입력해주세요");
+  if (params.email == "")    dynamicAlert ("회원가입용 이메일을 입력해주세요");
+  if (params.got_sign == "") dynamicAlert ("서명을 해주세요");
 
   console.log(params);
   console.log(JSON.stringify(params));
