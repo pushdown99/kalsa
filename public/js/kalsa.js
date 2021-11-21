@@ -38,6 +38,11 @@ function dynamicAlert (body) {
   $("#modal-alert").modal('show');
 }
 
+function validateEmail(email) {
+  const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email);
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 // jQuery READY
@@ -92,6 +97,43 @@ $('#save').on('click', function(event) {
     console.log(JSON.stringify(params));
 
     $.postJSON('/json/register', params).then(res => {
+      viewReceipt (`/pdf/output-${res.userid}.pdf`);
+      console.log(res);
+    });
+  }
+});
+
+$('#save2').on('click', function(event) {
+  var canvas    = document.getElementById("signature-pad");
+  var sign = canvas.toDataURL('image/png').replace(/\s/g, '+').replace(/^data:image\/png;base64,/, '');
+
+  var params = {
+    type       : $('input[type=radio][name=type]:checked').val(),
+    cname      : $('#cname').val(),
+    tel        : $('#tel').val(),
+    mobile     : $('#mobile').val(),
+    name       : $('#name').val(),
+    r_email    : $('#r_email').val(),
+    address    : $('#address').val(),
+    id         : $('#id').val(),
+    email      : $('#email').val(),
+    got_sign   : $('#got_sign').val(),
+    signature  : sign
+  }
+  
+  console.log (validateEmail(params.email));
+
+  if (params.name == "")                              dynamicAlert ("이름을 입력해주세요");
+  else if (params.tel == "" && params.mobile == "")   dynamicAlert ("전화번호 또는 휴대전화번호를 입력해주세요");
+  else if (params.r_email == "")                      dynamicAlert ("이메일을 입력해주세요");
+  else if (params.id == "")                           dynamicAlert ("ID를 입력해주세요");
+  else if (params.email == "")                        dynamicAlert ("회원가입용 이메일을 입력해주세요");
+  else if (params.got_sign != "1")                    dynamicAlert ("서명을 해주세요");
+  else {
+    console.log(params);
+    console.log(JSON.stringify(params));
+
+    $.postJSON('/json/register2', params).then(res => {
       viewReceipt (`/pdf/output-${res.userid}.pdf`);
       console.log(res);
     });

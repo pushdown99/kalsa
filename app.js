@@ -162,8 +162,16 @@ app.get('/', function(req, res) {
   res.redirect('/regular');
 });
 
+app.get('/1', function(req, res) {
+  res.redirect('/regular');
+});
+
 app.get('/regular', function(req, res) {
   res.render('regular');
+});
+
+app.get('/2', function(req, res) {
+  res.render('associate');
 });
 
 app.get('/associate', function(req, res) {
