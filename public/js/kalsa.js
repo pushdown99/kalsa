@@ -33,12 +33,19 @@ $.extend({
     },
 });
 
+function dynamicAlert (body) {
+  $("#alert-body").html(body);
+  $("#modal-alert").modal('show');
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 // jQuery READY
 //
 
 $('#save').on('click', function(event) {
+  dynamicAlert("공란을 채워주세요"); 
+  
   var canvas    = document.getElementById("signature-pad");
   var sign = canvas.toDataURL('image/png').replace(/\s/g, '+').replace(/^data:image\/png;base64,/, '');
 
