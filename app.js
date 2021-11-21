@@ -174,64 +174,127 @@ app.get('/associate', function(req, res) {
   res.render('associate');
 });
 
-app.post('/json/register', function (req, res) { 
-  let userid = req.body.userid = moment().format("YYYYMMDD-HHmmss");
-  let name = req.body.name;
+app.post('/json/preview', function (req, res) { 
+  let userid = req.body.userid;
+  let name   = req.body.name;
 
-  writeWORD (0, userid, req.body).then((data) => {
-    console.log ("after writeWORD");
+  if (fs.existsSync(`./pdf/output-${userid}.pdf`)){
+    res.send(req.body);
+  } else {
+    writeWORD (0, userid, req.body).then((data) => {
+      console.log ("after writeWORD");
 
-    console.log(`- write output-${userid}.pdf`);
-    var wordBuffer = fs.readFileSync(`./docx/output-${userid}.docx`);
+      console.log(`- write output-${userid}.pdf`);
+      var wordBuffer = fs.readFileSync(`./docx/output-${userid}.docx`);
   
-    toPdf(wordBuffer).then((pdfBuffer) => {
-      fs.writeFileSync(`./pdf/output-${userid}.pdf`, pdfBuffer);
-      console.log(`- write output-${userid}.pdf (after)`);
-      
-      console.log("- sending mail");
-      let title = `정회원가입신청서 [${name} 님]`;
-      mailto(userid, 'popup@naver.com', 'aq175312#$', 'haeyun@gmail.com', title, '정회원가입신청서입니다.', function (err, info) {
-        if (err) console.log(err);
-        else {
-          console.log("- mailto success");
-          res.send(req.body);
-        }
-      });
-    });  
-  });
+      toPdf(wordBuffer).then((pdfBuffer) => {
+        fs.writeFileSync(`./pdf/output-${userid}.pdf`, pdfBuffer);
+        console.log(`- write output-${userid}.pdf (after)`);
+        res.send(req.body);
+      });  
+    });
+  }
 });
 
-app.post('/json/register2', function (req, res) { 
-  let userid = req.body.userid = moment().format("YYYYMMDD-HHmmss");
+app.post('/json/submit', function (req, res) { 
+  let userid = req.body.userid;
   let name = req.body.name;
 
-  writeWORD (1, userid, req.body).then((data) => {
-    console.log ("after writeWORD");
+  if (fs.existsSync(`./pdf/output-${userid}.pdf`)){
+    console.log("- sending mail");
+    let title = `정회원가입신청서 [${name} 님]`;
+    mailto(userid, 'popup@naver.com', 'aq175312#$', 'haeyun@gmail.com', title, '정회원가입신청서입니다.', function (err, info) {
+      if (err) console.log(err);
+      else {
+        console.log("- mailto success");
+        res.send(req.body);
+      }
+    });
+  } else {
+    writeWORD (0, userid, req.body).then((data) => {
+      console.log ("after writeWORD");
 
-    console.log(`- write output-${userid}.pdf`);
-    var wordBuffer = fs.readFileSync(`./docx/output-${userid}.docx`);
+      console.log(`- write output-${userid}.pdf`);
+      var wordBuffer = fs.readFileSync(`./docx/output-${userid}.docx`);
   
-    toPdf(wordBuffer).then((pdfBuffer) => {
-      fs.writeFileSync(`./pdf/output-${userid}.pdf`, pdfBuffer);
-      console.log(`- write output-${userid}.pdf (after)`);
+      toPdf(wordBuffer).then((pdfBuffer) => {
+        fs.writeFileSync(`./pdf/output-${userid}.pdf`, pdfBuffer);
+        console.log(`- write output-${userid}.pdf (after)`);
       
-      console.log("- sending mail");
-      let title = `일반회원가입신청서 [${name} 님]`;
-      mailto(userid, 'popup@naver.com', 'aq175312#$', 'haeyun@gmail.com', title, '일반회원가입신청서입니다.', function (err, info) {
-        if (err) console.log(err);
-        else {
-          console.log("- mailto success");
-          res.send(req.body);
-        }
-      });
-    });  
-  });
+        console.log("- sending mail");
+        let title = `정회원가입신청서 [${name} 님]`;
+        mailto(userid, 'popup@naver.com', 'aq175312#$', 'haeyun@gmail.com', title, '정회원가입신청서입니다.', function (err, info) {
+          if (err) console.log(err);
+          else {
+            console.log("- mailto success");
+            res.send(req.body);
+          }
+        });
+      });  
+    });
+  }
 });
 
-app.get('/image', (req, res) => {
-  let data = fs.readFileSync('signature.png');
-  res.contentType("image/png");
-  res.send (data);
+
+app.post('/json/preview2', function (req, res) { 
+  let userid = req.body.userid;
+  let name = req.body.name;
+
+  if (fs.existsSync(`./pdf/output-${userid}.pdf`)){
+    res.send(req.body);
+  } else {
+    writeWORD (1, userid, req.body).then((data) => {
+      console.log ("after writeWORD");
+
+      console.log(`- write output-${userid}.pdf`);
+      var wordBuffer = fs.readFileSync(`./docx/output-${userid}.docx`);
+  
+      toPdf(wordBuffer).then((pdfBuffer) => {
+        fs.writeFileSync(`./pdf/output-${userid}.pdf`, pdfBuffer);
+        console.log(`- write output-${userid}.pdf (after)`);
+        res.send(req.body);
+      });  
+    });
+  }
+});
+
+app.post('/json/submit2', function (req, res) { 
+  let userid = req.body.userid;
+  let name = req.body.name;
+
+  if (fs.existsSync(`./pdf/output-${userid}.pdf`)){
+    console.log("- sending mail");
+    let title = `일반회원가입신청서 [${name} 님]`;
+    mailto(userid, 'popup@naver.com', 'aq175312#$', 'haeyun@gmail.com', title, '일반회원가입신청서입니다.', function (err, info) {
+      if (err) console.log(err);
+      else {
+        console.log("- mailto success");
+        res.send(req.body);
+      }
+    });
+  } else {
+    writeWORD (1, userid, req.body).then((data) => {
+      console.log ("after writeWORD");
+
+      console.log(`- write output-${userid}.pdf`);
+      var wordBuffer = fs.readFileSync(`./docx/output-${userid}.docx`);
+  
+      toPdf(wordBuffer).then((pdfBuffer) => {
+        fs.writeFileSync(`./pdf/output-${userid}.pdf`, pdfBuffer);
+        console.log(`- write output-${userid}.pdf (after)`);
+      
+        console.log("- sending mail");
+        let title = `일반회원가입신청서 [${name} 님]`;
+        mailto(userid, 'popup@naver.com', 'aq175312#$', 'haeyun@gmail.com', title, '일반회원가입신청서입니다.', function (err, info) {
+          if (err) console.log(err);
+          else {
+            console.log("- mailto success");
+            res.send(req.body);
+          }
+        });
+      });  
+    });
+  }
 });
 
 app.get('/pdf/:f', (req, res) => {
@@ -249,6 +312,7 @@ app.get('/pdf/:f', (req, res) => {
 
 });
 
+///////////////////////////////////////////////////////////////////////////////////
 
 const privateKey  = fs.readFileSync(pem_privateKey, 'utf8');
 const certificate = fs.readFileSync(pem_certificate, 'utf8');
@@ -269,5 +333,4 @@ httpsServer.listen(port_https, () => {
   console.log('Listener: ', 'https listening on port ' + port_https);
 });
 
-//app.listen(port, () => console.log(`Listening on ${ port }`));
 
