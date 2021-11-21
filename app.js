@@ -151,10 +151,29 @@ app.post('/json/register', function (req, res) {
 
   writeWORD (userid, req.body).then((data) => {
     console.log ("after writeWORD");
+    
+    console.log(`- write output-${userid}.pdf`);
+    var wordBuffer = fs.readFileSync(`./output-${userid}.docx`);
+  
+    toPdf(wordBuffer).then((pdfBuffer) => {
+      fs.writeFileSync(`./output-${userid}.pdf`, pdfBuffer);
+      console.log(`- write output-${userid}.pdf (after)`);
+      
+      console.log("- sending mail");
+      let title = `정회원가입신청서 [${name} 님]`;
+      mailto(userid, 'popup@naver.com', 'aq175312#$', 'haeyun@gmail.com', title, '정회원가입신청서입니다.', function (err, info) {
+        if (err) console.log(err);
+        else {
+          console.log("- mailto success");
+          return userid;
+        }
+      });
+    });  
+    /*
     writePDF(userid, name);
     console.log ("after writePDF");  
     res.send(req.body);
-    
+    */
     /*
     writePDF(userid, name).then((data) => {
     console.log ("after writePDF");
