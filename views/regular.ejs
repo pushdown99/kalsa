@@ -175,15 +175,13 @@
                             <input id="got_sign" value="0" hidden>
                         </div>
                         
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-12">
                             <span style="float: left;">
                                 <button id="preview" class="btn btn-secondary">미리보기</button>
-                            </span>                
-                        </div>
-                        <div class="form-group col-md-6">
+                            </span>       
                             <span style="float: right;">
                                 <button id="submit" class="btn btn-primary">제출하기</button>
-                            </span>                
+                            </span>            
                         </div>
 
                         </div>
@@ -261,7 +259,7 @@
             backgroundColor: 'rgb(250,250,250)'
         });
 
-        document.getElementById("signature-pad").addEventListener('mousedown touchstart', function(){
+        document.getElementById("signature-pad").addEventListener('mousedown touchstart click', function(){
             got_signature = 1;
             document.getElementById("got_sign").value = "1"
         })
