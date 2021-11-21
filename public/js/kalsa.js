@@ -85,6 +85,7 @@ $('#save').on('click', function(event) {
     r_email    : $('#r_email').val(),
     id         : $('#id').val(),
     email      : $('#email').val(),
+    user       : $('input[type=radio][name=user]:checked').val(),
     got_sign   : $('#got_sign').val(),
     signature  : sign
   }
@@ -127,6 +128,7 @@ $('#save2').on('click', function(event) {
     address    : $('#address').val(),
     id         : $('#id').val(),
     email      : $('#email').val(),
+    user       : $('input[type=radio][name=user]:checked').val(),
     got_sign   : $('#got_sign').val(),
     signature  : sign
   }
