@@ -141,9 +141,10 @@ async function writeWORD(userid, myjson) {
   console.log(`- write output-${userid}.docx`);
   if (fs.existsSync(`output-${userid}.docx`)) {
     console.log(`- output-${userid}.docx file exist`);
+    
     writePDF(userid, name).then((data) => {
-      console.log ("- write pdf completed")
-      return
+      console.log ("- write pdf completed", data);
+      return data;
     });
   }
 }
