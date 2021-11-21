@@ -43,6 +43,12 @@ function validateEmail(email) {
   return re.test(email);
 }
 
+function alphanumeric (val) { 
+  var letters = /^[0-9a-zA-Z]+$/;
+  if(val.match(letters)) return true;
+  else return false;
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 // jQuery READY
@@ -91,6 +97,7 @@ $('#save').on('click', function(event) {
   else if (params.r_email == "")                   dynamicAlert ("담당자 이메일을 입력해주세요");
   else if (validateEmail(params.r_email) == false) dynamicAlert ("정상적인 담당자 이메일을 입력해주세요");
   else if (params.id == "")                        dynamicAlert ("ID를 입력해주세요");
+  else if (alphanumeric(params.id) == false)       dynamicAlert ("ID는 영문과 숫자로만 입력해주세요")
   else if (params.email == "")                     dynamicAlert ("회원가입용 이메일을 입력해주세요");
   else if (validateEmail(params.email) == false)   dynamicAlert ("정상적인 회원가입용 이메일을 입력해주세요");
   else if (params.got_sign != "1")                 dynamicAlert ("서명을 해주세요");
@@ -130,6 +137,7 @@ $('#save2').on('click', function(event) {
   else if (params.r_email == "")                      dynamicAlert ("이메일을 입력해주세요");
   else if (validateEmail(params.r_email) == false)    dynamicAlert ("정상적인 이메일을 입력해주세요");
   else if (params.id == "")                           dynamicAlert ("ID를 입력해주세요");
+  else if (alphanumeric(params.id) == false)          dynamicAlert ("ID는 영문과 숫자로만 입력해주세요")
   else if (params.email == "")                        dynamicAlert ("회원가입용 이메일을 입력해주세요");
   else if (validateEmail(params.email) == false)      dynamicAlert ("정상적인 회원가입용 이메일을 입력해주세요");
   else if (params.got_sign != "1")                    dynamicAlert ("서명을 해주세요");
