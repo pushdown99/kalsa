@@ -45,7 +45,8 @@ function writePDF(userid, name) {
 
   toPdf(wordBuffer).then(
     (pdfBuffer) => {
-      fs.writeFileSync(`./output-${userid}.pdf`, pdfBuffer)
+      fs.writeFileSync(`./output-${userid}.pdf`, pdfBuffer);
+      /*
       if (fs.existsSync(`output-${userid}.pdf`)) {
         console.log(`- output-${userid}.pdf file exist`);
 
@@ -59,6 +60,7 @@ function writePDF(userid, name) {
           }
         });
       }
+      */
     }, (err) => {
       console.log(err)
     }
