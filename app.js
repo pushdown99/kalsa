@@ -28,6 +28,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 app.use(express.static(__dirname + '/public'));
 
+if (!fs.existsSync('pdf')){
+  fs.mkdirSync('pdf');
+}
+if (!fs.existsSync('docx')){
+  fs.mkdirSync('docx');
+}
+if (!fs.existsSync('signature')){
+  fs.mkdirSync('signature');
+}
+
 function mailto (userid, From, Pass, To, Subject, Text, Callback) {
   let Send = mail.createTransport({ service: 'naver', host: 'smtp.naver.com', port: 587, auth: { user: From, pass: Pass, } });
   let Opts = {
