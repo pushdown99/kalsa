@@ -16,8 +16,8 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-let port_http  = process.env.PORT_HTTP  || 80;
-let port_https = process.env.PORT_HTTPS || 443; // 55100
+let port_http  = process.env.PORT_HTTP  || 8083;
+let port_https = process.env.PORT_HTTPS || 55100; // 55100
 
 let pem_privateKey  = process.env.PEM_PRIVATEKEY || '/etc/letsencrypt/live/tric.kr/privkey.pem';
 let pem_certificate = process.env.PEM_CERT       || '/etc/letsencrypt/live/tric.kr/cert.pem'   ;
