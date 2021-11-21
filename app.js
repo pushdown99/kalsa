@@ -212,7 +212,7 @@ app.post('/json/submit', function (req, res) {
       
         console.log("- sending mail");
         let title = `정회원가입신청서 [${name} 님]`;
-        mailto(userid, 'popup@naver.com', 'aq175312#$', 'haeyun@gmail.com', title, '정회원가입신청서입니다.', function (err, info) {
+        mailto(userid, 'popup@naver.com', 'aq175312#$', 'liquorsafety@gmail.com', title, '정회원가입신청서입니다.', function (err, info) {
           if (err) console.log(err);
           else {
             console.log("- mailto success");
@@ -258,7 +258,7 @@ app.post('/json/submit2', function (req, res) {
       
         console.log("- sending mail");
         let title = `일반회원가입신청서 [${name} 님]`;
-        mailto(userid, 'popup@naver.com', 'aq175312#$', 'haeyun@gmail.com', title, '일반회원가입신청서입니다.', function (err, info) {
+        mailto(userid, 'popup@naver.com', 'aq175312#$', 'liquorsafety@gmail.com', title, '일반회원가입신청서입니다.', function (err, info) {
           if (err) console.log(err);
           else {
             console.log("- mailto success");
