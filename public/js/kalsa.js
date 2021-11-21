@@ -164,6 +164,7 @@ $('#submit').on('click', function(event) {
 
     $.postJSON('/json/submit', params).then(res => {
       console.log(res);
+      window.location.href = '/complete';
     });
   }
 });
@@ -250,6 +251,7 @@ $('#submit2').on('click', function(event) {
 
     $.postJSON('/json/submit2', params).then(res => {
       console.log(res);
+      window.location.href = '/complete';
     });
   }
 });

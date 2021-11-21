@@ -174,6 +174,10 @@ app.get('/associate', function(req, res) {
   res.render('associate');
 });
 
+app.get('/complete', function(req, res) {
+  res.render('complete');
+});
+
 app.post('/json/preview', function (req, res) { 
   let userid = req.body.userid;
   let name   = req.body.name;
