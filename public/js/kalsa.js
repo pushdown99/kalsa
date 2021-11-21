@@ -42,6 +42,7 @@ function dynamicAlert (body) {
 //
 // jQuery READY
 //
+var viewReceipt = null;
 
 viewReceipt = function (file) {
   console.log('call viewReceipt:', file);
