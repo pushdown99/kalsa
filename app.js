@@ -215,7 +215,7 @@ app.get('/image', (req, res) => {
 app.get('/pdf/:f', (req, res) => {
   let f = req.params.f;
   let d = 'pdf';
-  let p = `${d}/${f}`;
+  let p = `./${d}/${f}`;
   console.log ('file:', p);
   try {
   let data = fs.readFileSync(p);
